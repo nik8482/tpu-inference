@@ -21,6 +21,7 @@ Besides continuous integration and continuous delivery, a major goal of our pipe
 - kernel support matrix (microbenchmarks)
 - parallelism support matrix
 - quantization support matrix
+- RL support matrix
 
 To support this requirement, each model and feature will go through a series of stages of testing, and the test results will be used to generate the support matrices automatically.
 
@@ -65,6 +66,7 @@ The python script takes the following arguments:
   - `"parallelism support matrix"`
   - `"quantization support matrix"`
   - `"kernel support matrix microbenchmarks"`
+  - `"RL support matrix"`
 - **--group**: [OPTIONAL] This is **required** only when the category is `"kernel support matrix microbenchmarks"`. It specifies the subdirectory within `.buildkite/kernel_microbenchmarks` where the YAML file will be created.
 
 ```bash
