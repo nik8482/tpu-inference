@@ -65,7 +65,7 @@ WORKDIR /workspace/tpu_inference
 # Install requirements first and cache so we don't need to re-install on code change.
 COPY requirements.txt .
 # TODO: remove `--no-deps` once we have stable version of jax/jaxlib/libtpu.
-RUN --mount=type=cache,target=/root/.cache/pip pip install --extra-index-url https://download.pytorch.org/whl/cpu -r --no-deps requirements.txt --retries 3
+RUN --mount=type=cache,target=/root/.cache/pip pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt --no-deps --retries 3
 COPY requirements_benchmarking.txt .
 # These are needed for the E2E benchmarking tests (i.e. tests/e2e/benchmarking/mlperf.sh)
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements_benchmarking.txt --retries 3
