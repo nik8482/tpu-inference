@@ -75,7 +75,8 @@ RUN  --mount=type=cache,target=/root/.cache/pip if [ "$IS_TEST" = "true" ]; then
         pip install -r requirements_test.txt --retries 3; \
     fi
 COPY . .
-RUN --mount=type=cache,target=/root/.cache/pip pip install -e .
+# TODO: remove `--no-deps` once we have stable version of jax/jaxlib/libtpu.
+RUN --mount=type=cache,target=/root/.cache/pip pip install -e . --no-deps
 
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
