@@ -23,8 +23,8 @@ import torchax
 from jax.sharding import Mesh
 from vllm.v1.attention.backend import AttentionType
 
-from tpu_inference.layers.vllm.mla_attention import (
-    VllmTPUMLAAttention, VllmTPUMultiHeadLatentAttentionWrapper)
+from tpu_inference.layers.vllm.custom_ops.mla import (
+    VllmMLAAttention, VllmMultiHeadLatentAttentionWrapper)
 from tpu_inference.models.vllm.vllm_model_wrapper_context import (
     get_vllm_model_wrapper_context, set_vllm_model_wrapper_context)
 
@@ -51,7 +51,7 @@ class TestVllmTPUMLAAttention:
         mock_super_init.side_effect = side_effect
 
         kv_b_proj = MagicMock()
-        attn = VllmTPUMLAAttention(
+        attn = VllmMLAAttention(
             num_heads=8,
             scale=1.0,
             qk_nope_head_dim=64,
@@ -80,7 +80,7 @@ class TestVllmTPUMLAAttention:
         mock_super_init.side_effect = side_effect
 
         kv_b_proj = MagicMock()
-        attn = VllmTPUMLAAttention(
+        attn = VllmMLAAttention(
             num_heads=8,
             scale=1.0,
             qk_nope_head_dim=64,
@@ -106,7 +106,7 @@ class TestVllmTPUMLAAttention:
 
         # Mock a linear layer (to simulate column parallel linear)
         kv_b_proj = torch.nn.Linear(10, 10)
-        attn = VllmTPUMLAAttention(
+        attn = VllmMLAAttention(
             num_heads=8,
             scale=1.0,
             qk_nope_head_dim=64,
@@ -151,7 +151,7 @@ class TestVllmTPUMLAAttention:
 
         mock_super_init.side_effect = side_effect
 
-        attn = VllmTPUMLAAttention(
+        attn = VllmMLAAttention(
             num_heads=8,
             scale=1.0,
             qk_nope_head_dim=64,
@@ -211,7 +211,7 @@ class TestVllmTPUMLAAttention:
 
         mock_super_init.side_effect = side_effect
 
-        attn = VllmTPUMLAAttention(
+        attn = VllmMLAAttention(
             num_heads=8,
             scale=1.0,
             qk_nope_head_dim=64,
@@ -263,7 +263,7 @@ class TestVllmTPUMultiHeadLatentAttentionWrapper:
         mla_modules.indexer_rotary_emb = "indexer_rotary_emb"
         mla_modules.is_sparse = False
 
-        wrapper = VllmTPUMultiHeadLatentAttentionWrapper(
+        wrapper = VllmMultiHeadLatentAttentionWrapper(
             hidden_size=128,
             num_heads=8,
             scale=1.0,
